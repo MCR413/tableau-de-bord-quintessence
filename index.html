@@ -2339,9 +2339,62 @@ Action: Produire 24 contenus/mois (vs 16). Focus: Reels de drone (lac), vidéos 
             document.getElementById('kpi-ig-engagement-rate').textContent = ig_engagement_rate + '%';
         }
 
-        // Initial load
-        loadData();
-        updateDashboard();
+<script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+          import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+          const firebaseConfig = {
+                  apiKey: "AIzaSyBOCNABOS27qkhc4V-xX-iCQXlL7CXA_z0",
+                  authDomain: "dashboard-quintessence.firebaseapp.com",
+                  projectId: "dashboard-quintessence",
+                  storageBucket: "dashboard-quintessence.firebasestorage.app",
+                  messagingSenderId: "224380696450",
+                  appId: "1:224380696450:web:cfc8b0a00831fbf49f819b"
+          };
+
+          const app = initializeApp(firebaseConfig);
+          const db = getFirestore(app);
+
+          const currentMonth = new Date().toISOString().slice(0, 7);
+          const docRef = doc(db, "dashboard", currentMonth);
+
+          const status = document.createElement("div");
+          status.id = "sync-status";
+          status.style = "position:fixed;bottom:16px;right:16px;background:#fff;border:1px solid #ccc;padding:8px 14px;border-radius:8px;font-size:13px;z-index:9999;";
+          document.body.appendChild(status);
+
+          window.saveData = async function() {
+                  status.textContent = "Sauvegarde...";
+                  const inputs = document.querySelectorAll("input, select, textarea");
+                  const data = {};
+                  inputs.forEach(el => { if (el.id) data[el.id] = el.value; });
+                  try {
+                            await setDoc(docRef, data);
+                            status.textContent = "Sauvegarde";
+                  } catch(e) {
+                            status.textContent = "Erreur";
+                            console.error(e);
+                  }
+          };
+
+          (async function loadData() {
+                  status.textContent = "Chargement...";
+                  try {
+                            const snap = await getDoc(docRef);
+                            if (snap.exists()) {
+                                        const data = snap.data();
+                                        Object.keys(data).forEach(id => {
+                                                      const el = document.getElementById(id);
+                                                      if (el) el.value = data[id];
+                                        });
+                            }
+                                      status.textContent = "Pret";
+                            updateDashboard();
+                  } catch(e) {
+                            status.textContent = "Erreur chargement";
+                            console.error(e);
+                  }
+          })();
     </script>
-</body>
+    </body>
 </html>
