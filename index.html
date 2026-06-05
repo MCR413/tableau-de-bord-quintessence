@@ -1,0 +1,2347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Marketing - Hôtel Quintessence</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-bg: #F5F1ED;
+            --color-text: #1A1A1A;
+            --color-accent: #D4A574;
+            --color-accent-light: #E8DCC8;
+            --color-border: #E0D9D0;
+            --color-success: #7BA45C;
+            --color-warning: #C97D5D;
+            --color-neutral: #8B8680;
+            --color-white: #FFFFFF;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, var(--color-bg) 0%, #EFEAE5 100%);
+            color: var(--color-text);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+        .header {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            justify-content: flex-start;
+        }
+
+        .header-title {
+            text-align: left;
+        }
+
+        .header-title h1 {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .header-title p {
+            font-size: 13px;
+            color: var(--color-neutral);
+            letter-spacing: 0.5px;
+            font-weight: 400;
+        }
+
+        .header-month {
+            text-align: right;
+            flex: 1;
+        }
+
+        .month-selector {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .month-selector label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-neutral);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .month-selector select {
+            padding: 10px 15px;
+            border: 1px solid var(--color-border);
+            background: white;
+            font-size: 14px;
+            cursor: pointer;
+            width: 150px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* TABS NAVIGATION */
+        .tabs-container {
+            background: white;
+            padding: 0;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: white;
+            border: none;
+            padding: 18px 25px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            color: var(--color-neutral);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tab-button:hover {
+            color: var(--color-accent);
+            background: var(--color-accent-light);
+        }
+
+        .tab-button.active {
+            color: var(--color-accent);
+            border-bottom-color: var(--color-accent);
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 50px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SECTION TITLE */
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 20px;
+        }
+
+        /* FORM TOGGLE */
+        .form-toggle {
+            background: none;
+            border: none;
+            color: var(--color-accent);
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 5px 0;
+            margin-bottom: 25px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-toggle:hover {
+            color: var(--color-text);
+        }
+
+        /* FORM SECTION */
+        .form-section {
+            background: var(--color-accent-light);
+            padding: 25px;
+            margin-bottom: 40px;
+            border-left: 4px solid var(--color-accent);
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 12px;
+            border: 1px solid var(--color-border);
+            font-size: 13px;
+            background: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        /* IMAGE UPLOAD */
+        .image-upload-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .upload-preview {
+            width: 100px;
+            height: 100px;
+            border: 2px dashed var(--color-border);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--color-accent-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-preview:hover {
+            border-color: var(--color-accent);
+            background: rgba(212, 165, 116, 0.2);
+        }
+
+        .upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-preview-empty {
+            color: var(--color-neutral);
+            font-size: 11px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* KPI GRID */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .kpi-card {
+            background: linear-gradient(135deg, white 0%, var(--color-accent-light) 100%);
+            border: 1px solid var(--color-border);
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .kpi-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .kpi-label {
+            font-size: 11px;
+            color: var(--color-neutral);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .kpi-value {
+            font-size: 36px;
+            font-weight: 400;
+            margin-bottom: 10px;
+            color: var(--color-text);
+        }
+
+        .kpi-change {
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .kpi-change.positive {
+            color: var(--color-success);
+            font-weight: 600;
+        }
+
+        .kpi-change.negative {
+            color: var(--color-warning);
+            font-weight: 600;
+        }
+
+        .kpi-change.neutral {
+            color: var(--color-neutral);
+        }
+
+        /* TABLE */
+        .table-wrapper {
+            margin-bottom: 40px;
+        }
+
+        .editable-cell {
+            width: 100%;
+            border: none;
+            background: transparent;
+            padding: 8px 6px;
+            font: inherit;
+            color: var(--color-text);
+        }
+
+        .editable-cell:focus {
+            outline: none;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 0 0 2px rgba(212, 165, 116, 0.2);
+        }
+
+        .header-cell {
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .table-wrapper .form-section {
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: var(--color-accent-light);
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid var(--color-border);
+            color: var(--color-text);
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        tr:hover {
+            background: rgba(212, 165, 116, 0.05);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-bold {
+            font-weight: 600;
+        }
+
+        .accent-text {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        /* INTERPRETATION BOX - EDITABLE */
+        .interpretation {
+            background: var(--color-accent-light);
+            padding: 30px;
+            border-left: 4px solid var(--color-accent);
+            font-size: 13px;
+            line-height: 1.8;
+            margin-top: 30px;
+        }
+
+        .interpretation h4 {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 0.5px;
+        }
+
+        .interpretation ul {
+            margin-left: 20px;
+        }
+
+        .interpretation li {
+            margin-bottom: 12px;
+        }
+
+        .edit-analysis-btn {
+            background: none;
+            border: none;
+            color: var(--color-accent);
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            padding: 5px 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .edit-analysis-btn:hover {
+            color: var(--color-text);
+        }
+
+        .analysis-edit-form {
+            background: white;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .analysis-edit-form.active {
+            display: block;
+        }
+
+        .analysis-edit-form textarea {
+            width: 100%;
+            min-height: 150px;
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .analysis-edit-form button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .analysis-edit-form button:hover {
+            opacity: 0.9;
+        }
+
+        .analysis-edit-form button.cancel {
+            background: var(--color-neutral);
+        }
+
+        /* TOP PUBLICATIONS */
+        .top-publications {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .publication-card {
+            background: white;
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .publication-card:hover {
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .publication-image {
+            background: linear-gradient(135deg, var(--color-accent-light), var(--color-accent));
+            height: 160px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 13px;
+            text-align: center;
+            padding: 15px;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        .publication-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .publication-content {
+            padding: 20px;
+        }
+
+        .publication-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--color-text);
+            line-height: 1.5;
+        }
+
+        .publication-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            font-size: 11px;
+            margin-bottom: 12px;
+        }
+
+        .publication-stat {
+            text-align: center;
+        }
+
+        .publication-stat-value {
+            font-weight: 600;
+            color: var(--color-accent);
+            display: block;
+            font-size: 15px;
+            margin-bottom: 3px;
+        }
+
+        .publication-stat-label {
+            color: var(--color-neutral);
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ACTION GRID BY CHANNEL */
+        .action-channels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .action-channel {
+            border-top: 4px solid var(--color-accent);
+            padding-top: 20px;
+        }
+
+        .action-channel h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .action-item {
+            background: linear-gradient(135deg, white 0%, var(--color-accent-light) 100%);
+            border: 1px solid var(--color-border);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .action-item textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 12px;
+            border: 1px solid var(--color-border);
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            resize: vertical;
+        }
+
+        .action-item textarea:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(212, 165, 116, 0.1);
+        }
+
+        /* HISTORIQUE */
+        .history-month {
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid var(--color-border);
+        }
+
+        .history-month h3 {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--color-text);
+        }
+
+        .history-channels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .history-channel {
+            border-left: 4px solid var(--color-accent);
+        }
+
+        .history-channel h4 {
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .history-action {
+            background: white;
+            border: 1px solid var(--color-border);
+            padding: 15px;
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            .header-left {
+                justify-content: center;
+            }
+
+            .header-title {
+                text-align: center;
+            }
+
+            .header-month {
+                text-align: center;
+            }
+
+            .month-selector {
+                align-items: center;
+            }
+
+            .month-selector select {
+                width: 100%;
+                max-width: 200px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .action-channels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 30px 20px;
+            }
+
+            .tab-button {
+                padding: 15px 12px;
+                font-size: 11px;
+                min-width: 100px;
+                flex: 1;
+            }
+
+            .tab-content {
+                padding: 30px 20px;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-value {
+                font-size: 28px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .top-publications {
+                grid-template-columns: 1fr;
+            }
+
+            .action-channels {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .status-complete {
+            background: rgba(108, 182, 111, 0.14);
+            border: 1px solid #6cb66f;
+            color: #276930;
+        }
+
+        .status-incomplete {
+            background: rgba(212, 165, 116, 0.16);
+            border: 1px solid #d4a574;
+            color: #8a5200;
+        }
+
+        /* PRINT */
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+            }
+
+            .tabs-container {
+                display: none;
+            }
+
+            .tab-content {
+                display: block !important;
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+
+            .form-section {
+                display: none !important;
+            }
+
+            .form-toggle {
+                display: none !important;
+            }
+
+            .edit-analysis-btn {
+                display: none !important;
+            }
+
+            .analysis-edit-form {
+                display: none !important;
+            }
+
+            .action-item textarea {
+                border: none;
+                background: white;
+            }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .status-complete {
+            background: rgba(108, 182, 111, 0.14);
+            border: 1px solid #6cb66f;
+            color: #276930;
+        }
+
+        .status-incomplete {
+            background: rgba(212, 165, 116, 0.16);
+            border: 1px solid #d4a574;
+            color: #8a5200;
+        }
+
+        h2, h3, h4 {
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <div class="header">
+        <div class="header-left">
+            <div class="header-title">
+                <h1>Tableau de bord marketing</h1>
+                <p>HÔTEL QUINTESSENCE</p>
+            </div>
+        </div>
+        <div class="header-month">
+            <div class="month-selector">
+                <label for="reportMonth">Rapport du mois :</label>
+                <select id="reportMonth" onchange="switchMonth()">
+                    <option value="2026-01">Janvier 2026</option>
+                    <option value="2026-02">Février 2026</option>
+                    <option value="2026-03">Mars 2026</option>
+                    <option value="2026-04" selected>Avril 2026</option>
+                    <option value="2026-05">Mai 2026</option>
+                    <option value="2026-06">Juin 2026</option>
+                    <option value="2026-07">Juillet 2026</option>
+                    <option value="2026-08">Août 2026</option>
+                    <option value="2026-09">Septembre 2026</option>
+                    <option value="2026-10">Octobre 2026</option>
+                    <option value="2026-11">Novembre 2026</option>
+                    <option value="2026-12">Décembre 2026</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABS NAVIGATION -->
+    <div class="tabs-container">
+        <button class="tab-button active" onclick="switchTab('overview', event)">Vue d'ensemble</button>
+        <button class="tab-button" onclick="switchTab('meta', event)">Meta ads</button>
+        <button class="tab-button" onclick="switchTab('google', event)">Google ads</button>
+        <button class="tab-button" onclick="switchTab('email', event)">Infolettres</button>
+        <button class="tab-button" onclick="switchTab('facebook', event)">Facebook</button>
+        <button class="tab-button" onclick="switchTab('instagram', event)">Instagram</button>
+        <button class="tab-button" onclick="switchTab('actions', event)">Plan d'action</button>
+        <button class="tab-button" onclick="switchTab('history', event)">Historique</button>
+    </div>
+
+    <div class="container">
+
+        <!-- TAB: VUE D'ENSEMBLE -->
+        <div id="tab-overview" class="tab-content active">
+            <h2 class="section-title">Performance hôtelière — réservations & revenus</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-overview')">+ Entrer les données</button>
+            <div class="form-section" id="form-overview">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Réservations du mois</label>
+                        <input type="number" id="reservations" placeholder="0" value="45" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Réservations année dernière</label>
+                        <input type="number" id="reservations-yoy" placeholder="0" value="38" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Revenus du mois (CAD)</label>
+                        <input type="number" id="revenue" placeholder="0" value="125000" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Revenus année dernière (CAD)</label>
+                        <input type="number" id="revenue-yoy" placeholder="0" value="108000" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Revenus réels (CAD)</label>
+                        <input type="number" id="revenue-actual" placeholder="0" value="125000" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Budget (CAD)</label>
+                        <input type="number" id="revenue-budget" placeholder="0" value="120000" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>% OTA</label>
+                        <input type="number" id="ota-percent" placeholder="0" value="35" step="0.1" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>% Réservations directes</label>
+                        <input type="number" id="direct-percent" placeholder="0" value="65" step="0.1" onchange="saveData(); updateDashboard()">
+                    </div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Réservations</div>
+                    <div class="kpi-value" id="kpi-reservations">45</div>
+                    <div class="kpi-change positive" id="kpi-res-change">+ 18% YoY</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Revenus</div>
+                    <div class="kpi-value" id="kpi-revenue">125K</div>
+                    <div class="kpi-change positive" id="kpi-rev-change">+ 15,7% YoY</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">vs Budget</div>
+                    <div class="kpi-value" id="kpi-budget">+4,2%</div>
+                    <div class="kpi-change positive">Dépassement</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">% Réservations directes</div>
+                    <div class="kpi-value" id="kpi-direct">65%</div>
+                    <div class="kpi-change neutral">Excellent ratio</div>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <button class="form-toggle" onclick="toggleForm('table-form')">+ Modifier le tableau mensuel</button>
+                <div class="form-section active" id="table-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nom de la nouvelle colonne</label>
+                            <input type="text" id="new-column-name" placeholder="Ex : Taux de conversion">
+                        </div>
+                        <div class="form-group" style="align-self:flex-end;">
+                            <button type="button" class="form-toggle" onclick="addMonthlyColumn()">Ajouter une colonne</button>
+                        </div>
+                        <div class="form-group">
+                            <label>Mois / ligne</label>
+                            <input type="text" id="new-row-name" placeholder="Ex : Octobre">
+                        </div>
+                        <div class="form-group" style="align-self:flex-end;">
+                            <button type="button" class="form-toggle" onclick="addMonthlyRow()">Ajouter une ligne</button>
+                        </div>
+                    </div>
+                    <p style="font-size:12px;color:var(--color-neutral);margin-top:10px;">Éditez les noms de colonnes et les valeurs directement dans le tableau. Les modifications sont sauvegardées pour le mois sélectionné.</p>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                    <button type="button" class="form-toggle" onclick="confirmTabUpdate('overview')">Mis à jour</button>
+                    <div id="tab-overview-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+                </div>
+
+                <table id="monthly-table">
+                    <thead id="monthly-table-head"></thead>
+                    <tbody id="monthly-table-body"></tbody>
+                </table>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('overview')">Modifier la synthèse</button>
+                <div id="analysis-edit-overview" class="analysis-edit-form">
+                    <textarea id="analysis-overview-text" placeholder="Entrez votre analyse...">Performance +18% en réservations — Croissance solide. À maintenir via acquisition payante (Meta + Google).
+Revenus dépassent le budget de +4,2% — Excellent revenu par chambre. Vérifier le mix chambre/packages.
+65% en réservations directes — Ratio idéal. Continuer à renforcer la marque (email + organique).</textarea>
+                    <button onclick="saveAnalysis('overview')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('overview')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-overview">
+                    <li><strong>Performance +18% en réservations</strong> — Croissance solide. À maintenir via acquisition payante (Meta + Google).</li>
+                    <li><strong>Revenus dépassent le budget de +4,2%</strong> — Excellent revenu par chambre. Vérifier le mix chambre/packages.</li>
+                    <li><strong>65% en réservations directes</strong> — Ratio idéal. Continuer à renforcer la marque (email + organique).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: META ADS -->
+        <div id="tab-meta" class="tab-content">
+            <h2 class="section-title">Meta ads — Facebook & Instagram sponsorisés</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-meta')">+ Entrer les données</button>
+            <div class="form-section" id="form-meta">
+                <div class="form-grid">
+                    <div style="grid-column:1 / -1; display:flex; gap:20px;">
+                        <div style="flex:1">
+                            <h4 style="margin-bottom:10px; font-size:13px; font-weight:700;">Meta Ads — FR</h4>
+                            <div class="form-group">
+                                <label>Budget dépensé (CAD)</label>
+                                <input type="number" id="meta-spend-fr" placeholder="0" value="5000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Portée</label>
+                                <input type="number" id="meta-reach-fr" placeholder="0" value="80000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Clics</label>
+                                <input type="number" id="meta-clicks-fr" placeholder="0" value="2000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CTR (%)</label>
+                                <input type="number" id="meta-ctr-fr" placeholder="0" value="2.50" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CPC moyen (CAD)</label>
+                                <input type="number" id="meta-cpc-fr" placeholder="0" value="2.50" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Réservations attribuées</label>
+                                <input type="number" id="meta-conversions-fr" placeholder="0" value="8" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Revenus générés (CAD)</label>
+                                <input type="number" id="meta-revenue-fr" placeholder="0" value="24000" onchange="saveData(); updateDashboard()">
+                            </div>
+                        </div>
+
+                        <div style="flex:1">
+                            <h4 style="margin-bottom:10px; font-size:13px; font-weight:700;">Meta Ads — EN</h4>
+                            <div class="form-group">
+                                <label>Budget dépensé (CAD)</label>
+                                <input type="number" id="meta-spend-en" placeholder="0" value="3500" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Portée</label>
+                                <input type="number" id="meta-reach-en" placeholder="0" value="62000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Clics</label>
+                                <input type="number" id="meta-clicks-en" placeholder="0" value="1250" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CTR (%)</label>
+                                <input type="number" id="meta-ctr-en" placeholder="0" value="2.00" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CPC moyen (CAD)</label>
+                                <input type="number" id="meta-cpc-en" placeholder="0" value="2.80" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Réservations attribuées</label>
+                                <input type="number" id="meta-conversions-en" placeholder="0" value="4" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Revenus générés (CAD)</label>
+                                <input type="number" id="meta-revenue-en" placeholder="0" value="12000" onchange="saveData(); updateDashboard()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                    <button type="button" class="form-toggle" onclick="confirmTabUpdate('meta')">Mis à jour</button>
+                    <div id="tab-meta-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Budget dépensé</div>
+                    <div class="kpi-value" id="kpi-meta-spend">8,5K</div>
+                    <div class="kpi-change neutral">Avril 2026</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Portée</div>
+                    <div class="kpi-value" id="kpi-meta-reach">142K</div>
+                    <div class="kpi-change positive">Bonne exposition</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Coût par clic</div>
+                    <div class="kpi-value" id="kpi-meta-cpc">2,62 $</div>
+                    <div class="kpi-change positive">Compétitif</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Réservations</div>
+                    <div class="kpi-value" id="kpi-meta-conv">12</div>
+                    <div class="kpi-change">CPL: 708 $</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Meta FR — Réservations</div>
+                    <div class="kpi-value" id="kpi-meta-fr-conv">8</div>
+                    <div class="kpi-change neutral">FR</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Meta EN — Réservations</div>
+                    <div class="kpi-value" id="kpi-meta-en-conv">4</div>
+                    <div class="kpi-change neutral">EN</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">FR vs EN (conv)</div>
+                    <div class="kpi-value" id="kpi-meta-fr-en-diff">+4</div>
+                    <div class="kpi-change positive" id="kpi-meta-fr-en-label">Plus de réservations en FR</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Revenus</div>
+                    <div class="kpi-value" id="kpi-meta-revenue">36K</div>
+                    <div class="kpi-change positive">+4,2x budget</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">ROAS</div>
+                    <div class="kpi-value" id="kpi-meta-roas">4,2x</div>
+                    <div class="kpi-change positive">Excellent</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('meta')">Modifier la synthèse</button>
+                <div id="analysis-edit-meta" class="analysis-edit-form">
+                    <textarea id="analysis-meta-text" placeholder="Entrez votre analyse...">ROAS de 4,2x — Excellent retour. Chaque dollar dépensé génère 4,20 $ de revenus.
+CPC très compétitif — À 2,62 $, c'est idéal pour le secteur hôtelier premium.
+Action prioritaire: Augmenter le budget de 20-30% et tester des audiences lookalike basées sur les réservants.</textarea>
+                    <button onclick="saveAnalysis('meta')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('meta')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-meta">
+                    <li><strong>ROAS de 4,2x</strong> — Excellent retour. Chaque dollar dépensé génère 4,20 $ de revenus.</li>
+                    <li><strong>CPC très compétitif</strong> — À 2,62 $, c'est idéal pour le secteur hôtelier premium.</li>
+                    <li><strong>Action prioritaire :</strong> Augmenter le budget de 20-30% et tester des audiences lookalike basées sur les réservants.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: GOOGLE ADS -->
+        <div id="tab-google" class="tab-content">
+            <h2 class="section-title">Google ads — recherche payante</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-google')">+ Entrer les données</button>
+            <div class="form-section" id="form-google">
+                <div class="form-grid">
+                    <div style="grid-column:1 / -1; display:flex; gap:20px;">
+                        <div style="flex:1">
+                            <h4 style="margin-bottom:10px; font-size:13px; font-weight:700;">Google Ads — FR</h4>
+                            <div class="form-group">
+                                <label>Budget dépensé (CAD)</label>
+                                <input type="number" id="google-spend-fr" placeholder="0" value="7000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Impressions</label>
+                                <input type="number" id="google-impressions-fr" placeholder="0" value="26000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Clics</label>
+                                <input type="number" id="google-clicks-fr" placeholder="0" value="1200" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CTR (%)</label>
+                                <input type="number" id="google-ctr-fr" placeholder="0" value="4.60" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CPC moyen (CAD)</label>
+                                <input type="number" id="google-cpc-fr" placeholder="0" value="5.00" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Réservations attribuées</label>
+                                <input type="number" id="google-conversions-fr" placeholder="0" value="11" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Revenus générés (CAD)</label>
+                                <input type="number" id="google-revenue-fr" placeholder="0" value="33000" onchange="saveData(); updateDashboard()">
+                            </div>
+                        </div>
+
+                        <div style="flex:1">
+                            <h4 style="margin-bottom:10px; font-size:13px; font-weight:700;">Google Ads — EN</h4>
+                            <div class="form-group">
+                                <label>Budget dépensé (CAD)</label>
+                                <input type="number" id="google-spend-en" placeholder="0" value="5000" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Impressions</label>
+                                <input type="number" id="google-impressions-en" placeholder="0" value="19800" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Clics</label>
+                                <input type="number" id="google-clicks-en" placeholder="0" value="980" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CTR (%)</label>
+                                <input type="number" id="google-ctr-en" placeholder="0" value="4.95" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>CPC moyen (CAD)</label>
+                                <input type="number" id="google-cpc-en" placeholder="0" value="6.00" step="0.01" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Réservations attribuées</label>
+                                <input type="number" id="google-conversions-en" placeholder="0" value="7" onchange="saveData(); updateDashboard()">
+                            </div>
+                            <div class="form-group">
+                                <label>Revenus générés (CAD)</label>
+                                <input type="number" id="google-revenue-en" placeholder="0" value="21000" onchange="saveData(); updateDashboard()">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                    <button type="button" class="form-toggle" onclick="confirmTabUpdate('google')">Mis à jour</button>
+                    <div id="tab-google-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Budget dépensé</div>
+                    <div class="kpi-value" id="kpi-google-spend">12K</div>
+                    <div class="kpi-change neutral">Avril 2026</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Impressions</div>
+                    <div class="kpi-value" id="kpi-google-impr">45,8K</div>
+                    <div class="kpi-change positive">Forte visibilité</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">CTR</div>
+                    <div class="kpi-value" id="kpi-google-ctr">4,76%</div>
+                    <div class="kpi-change positive">Au-dessus moyenne</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">CPC moyen</div>
+                    <div class="kpi-value" id="kpi-google-cpc">5,50 $</div>
+                    <div class="kpi-change">Attendu</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Réservations</div>
+                    <div class="kpi-value" id="kpi-google-conv">18</div>
+                    <div class="kpi-change">CPL: 667 $</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">ROAS</div>
+                    <div class="kpi-value" id="kpi-google-roas">4,5x</div>
+                    <div class="kpi-change positive">Excellent</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Google FR — Réservations</div>
+                    <div class="kpi-value" id="kpi-google-fr-conv">11</div>
+                    <div class="kpi-change neutral">FR</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Google EN — Réservations</div>
+                    <div class="kpi-value" id="kpi-google-en-conv">7</div>
+                    <div class="kpi-change neutral">EN</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">FR vs EN (conv)</div>
+                    <div class="kpi-value" id="kpi-google-fr-en-diff">+4</div>
+                    <div class="kpi-change positive" id="kpi-google-fr-en-label">Plus de réservations en FR</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('google')">Modifier la synthèse</button>
+                <div id="analysis-edit-google" class="analysis-edit-form">
+                    <textarea id="analysis-google-text" placeholder="Entrez votre analyse...">Brand surperforme (CPL 500 $) — Les utilisateurs cherchant "Quintessence" convertissent très bien. Maintenir ce budget.
+Generic à augmenter — CPL de 3 000 $ est plus haut mais découvre de nouveaux clients. Tester +2K de budget.
+Réduire Retargeting — Conversion faible. Rediriger ce budget vers Brand ou Generic.</textarea>
+                    <button onclick="saveAnalysis('google')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('google')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-google">
+                    <li><strong>Brand surperforme (CPL 500 $)</strong> — Les utilisateurs cherchant "Quintessence" convertissent très bien. Maintenir ce budget.</li>
+                    <li><strong>Generic à augmenter</strong> — CPL de 3 000 $ est plus haut mais découvre de nouveaux clients. Tester +2K de budget.</li>
+                    <li><strong>Réduire Retargeting</strong> — Conversion faible. Rediriger ce budget vers Brand ou Generic.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: INFOLETTRES -->
+        <div id="tab-email" class="tab-content">
+            <h2 class="section-title">Infolettres — email marketing</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-email')">+ Entrer les données</button>
+            <div class="form-section" id="form-email">
+                <div id="email-items"></div>
+                <button type="button" class="form-toggle" style="margin-top: 20px;" onclick="addEmailItem()">+ Ajouter une infolettre</button>
+                <p style="font-size:12px;color:var(--color-neutral);margin-top:10px;">Saisissez les données mensuelles. Seuls le taux d'ouverture et le CTR de la première infolettre sont pris en compte dans le KPI.</p>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                <button type="button" class="form-toggle" onclick="confirmTabUpdate('email')">Mis à jour</button>
+                <div id="tab-email-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Abonnés totaux</div>
+                    <div class="kpi-value" id="kpi-email-total">8K</div>
+                    <div class="kpi-change neutral" id="kpi-email-count">Deux infolettres</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux d'ouverture moyen</div>
+                    <div class="kpi-value" id="kpi-email-open">26,4%</div>
+                    <div class="kpi-change positive">Excellent</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">CTR moyen</div>
+                    <div class="kpi-value" id="kpi-email-ctr">3,65%</div>
+                    <div class="kpi-change positive">Bon engagement</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Réservations email</div>
+                    <div class="kpi-value" id="kpi-email-conv">13</div>
+                    <div class="kpi-change positive">+50% vs Meta</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Revenus email</div>
+                    <div class="kpi-value" id="kpi-email-revenue">39K</div>
+                    <div class="kpi-change positive">29% du total</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('email')">Modifier la synthèse</button>
+                <div id="analysis-edit-email" class="analysis-edit-form">
+                    <textarea id="analysis-email-text" placeholder="Entrez votre analyse...">Email ROI excellent — 13 réservations pour coûtier quasi nul (liste existante). C'est 29% des revenus mensuels.
+"Événements" surperforme — 28,5% d'ouverture vs 24,3%. Les utilisateurs aiment les promos.
+Action: Augmenter fréquence d'envois (3x vs 2x par mois). Tester segmentation par intérêts (Spa, Gastronomie, Lac).</textarea>
+                    <button onclick="saveAnalysis('email')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('email')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-email">
+                    <li><strong>Email ROI excellent</strong> — 13 réservations pour coûtier quasi nul (liste existante). C'est 29% des revenus mensuels.</li>
+                    <li><strong>"Événements" surperforme</strong> — 28,5% d'ouverture vs 24,3%. Les utilisateurs aiment les promos.</li>
+                    <li><strong>Action :</strong> Augmenter fréquence d'envois (3x vs 2x par mois). Tester segmentation par intérêts (Spa, Gastronomie, Lac).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: FACEBOOK ORGANIQUE -->
+        <div id="tab-facebook" class="tab-content">
+            <h2 class="section-title">Facebook organique — contenu non-payant</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-facebook')">+ Entrer les données</button>
+            <div class="form-section" id="form-facebook">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Abonnés</label>
+                        <input type="number" id="fb-followers" placeholder="0" value="8450" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Portée organique (mois)</label>
+                        <input type="number" id="fb-reach" placeholder="0" value="42300" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Engagement total</label>
+                        <input type="number" id="fb-engagement" placeholder="0" value="1850" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Clics vers le site</label>
+                        <input type="number" id="fb-clicks" placeholder="0" value="485" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Posts publiés</label>
+                        <input type="number" id="fb-posts" placeholder="0" value="12" onchange="saveData(); updateDashboard()">
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                    <button type="button" class="form-toggle" onclick="confirmTabUpdate('facebook')">Mis à jour</button>
+                    <div id="tab-facebook-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Abonnés</div>
+                    <div class="kpi-value" id="kpi-fb-followers">8,4K</div>
+                    <div class="kpi-change positive">Communauté active</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Portée organique</div>
+                    <div class="kpi-value" id="kpi-fb-reach">42,3K</div>
+                    <div class="kpi-change positive">Bonne amplification</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Engagement total</div>
+                    <div class="kpi-value" id="kpi-fb-engagement">1,8K</div>
+                    <div class="kpi-change">4,4% du reach</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Clics vers site</div>
+                    <div class="kpi-value" id="kpi-fb-clicks">485</div>
+                    <div class="kpi-change positive">Trafic</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Engagement/post</div>
+                    <div class="kpi-value" id="kpi-fb-per-post">154</div>
+                    <div class="kpi-change">12 posts</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux engagement</div>
+                    <div class="kpi-value" id="kpi-fb-engagement-rate">4,4%</div>
+                    <div class="kpi-change positive">Au-dessus moyenne</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('facebook')">Modifier la synthèse</button>
+                <div id="analysis-edit-facebook" class="analysis-edit-form">
+                    <textarea id="analysis-facebook-text" placeholder="Entrez votre analyse...">Les événementiel et gastronomie dominent — Premiers 2 posts génèrent 65% de l'engagement total.
+4,4% engagement rate — Au-dessus de la moyenne Facebook (2-3%). Contenu resonant.
+Action: Augmenter la fréquence d'événements + contenu culinaire. Tester reels pour amplifier la portée.</textarea>
+                    <button onclick="saveAnalysis('facebook')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('facebook')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-facebook">
+                    <li><strong>Les événementiel et gastronomie dominent</strong> — Premiers 2 posts génèrent 65% de l'engagement total.</li>
+                    <li><strong>4,4% engagement rate</strong> — Au-dessus de la moyenne Facebook (2-3%). Contenu resonant.</li>
+                    <li><strong>Action :</strong> Augmenter la fréquence d'événements + contenu culinaire. Tester reels pour amplifier la portée.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: INSTAGRAM ORGANIQUE -->
+        <div id="tab-instagram" class="tab-content">
+            <h2 class="section-title">Instagram organique — contenu non-payant</h2>
+
+            <button class="form-toggle" onclick="toggleForm('form-instagram')">+ Entrer les données</button>
+            <div class="form-section" id="form-instagram">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Abonnés</label>
+                        <input type="number" id="ig-followers" placeholder="0" value="12800" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Impressions (mois)</label>
+                        <input type="number" id="ig-impressions" placeholder="0" value="185000" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Engagement total</label>
+                        <input type="number" id="ig-engagement" placeholder="0" value="6850" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Clics vers site</label>
+                        <input type="number" id="ig-clicks" placeholder="0" value="320" onchange="saveData(); updateDashboard()">
+                    </div>
+                    <div class="form-group">
+                        <label>Posts + reels publiés</label>
+                        <input type="number" id="ig-posts" placeholder="0" value="16" onchange="saveData(); updateDashboard()">
+                    </div>
+                </div>
+
+                <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                    <button type="button" class="form-toggle" onclick="confirmTabUpdate('instagram')">Mis à jour</button>
+                    <div id="tab-instagram-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+                </div>
+            </div>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Abonnés instagram</div>
+                    <div class="kpi-value" id="kpi-ig-followers">12,8K</div>
+                    <div class="kpi-change positive">Croissance</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Impressions</div>
+                    <div class="kpi-value" id="kpi-ig-impressions">185K</div>
+                    <div class="kpi-change positive">Portée forte</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Engagement total</div>
+                    <div class="kpi-value" id="kpi-ig-engagement">6,8K</div>
+                    <div class="kpi-change">3,7% du reach</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Engagement/post</div>
+                    <div class="kpi-value" id="kpi-ig-per-post">429</div>
+                    <div class="kpi-change">16 publications</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Clics vers site</div>
+                    <div class="kpi-value" id="kpi-ig-clicks">320</div>
+                    <div class="kpi-change">Linkin.bio</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">Taux engagement</div>
+                    <div class="kpi-value" id="kpi-ig-engagement-rate">3,7%</div>
+                    <div class="kpi-change positive">Compétitif</div>
+                </div>
+            </div>
+
+            <div class="interpretation">
+                <button class="edit-analysis-btn" onclick="toggleAnalysisEdit('instagram')">Modifier la synthèse</button>
+                <div id="analysis-edit-instagram" class="analysis-edit-form">
+                    <textarea id="analysis-instagram-text" placeholder="Entrez votre analyse...">Instagram > Facebook — 185K impressions vs 42K sur FB. Instagram est le pilier visuel de la marque.
+429 engagements/post — C'est 2,7x plus que Facebook (154). Le contenu résonne très bien.
+Action: Produire 24 contenus/mois (vs 16). Focus: Reels de drone (lac), vidéos spa, coulisses cuisine.</textarea>
+                    <button onclick="saveAnalysis('instagram')">Sauvegarder</button>
+                    <button class="cancel" onclick="toggleAnalysisEdit('instagram')">Annuler</button>
+                </div>
+                <h4>Synthèse</h4>
+                <ul id="display-analysis-instagram">
+                    <li><strong>Instagram > Facebook</strong> — 185K impressions vs 42K sur FB. Instagram est le pilier visuel de la marque.</li>
+                    <li><strong>429 engagements/post</strong> — C'est 2,7x plus que Facebook (154). Le contenu résonne très bien.</li>
+                    <li><strong>Action :</strong> Produire 24 contenus/mois (vs 16). Focus: Reels de drone (lac), vidéos spa, coulisses cuisine.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TAB: PLAN D'ACTION -->
+        <div id="tab-actions" class="tab-content">
+            <h2 class="section-title">Plan d'action par canal</h2>
+            <p style="margin-bottom: 30px; font-size: 13px; color: var(--color-neutral);">Inscrivez vos actions prioritaires par canal. Les actions seront sauvegardées automatiquement.</p>
+
+            <div style="display:flex;align-items:center;gap:10px;margin-top:15px;flex-wrap:wrap;">
+                <button type="button" class="form-toggle" onclick="confirmTabUpdate('actions')">Mis à jour</button>
+                <div id="tab-actions-status" class="status-badge status-incomplete">Onglet non confirmé</div>
+            </div>
+
+            <div class="action-channels">
+                <div class="action-channel">
+                    <h3>Meta ads</h3>
+                    <div class="action-item">
+                        <textarea id="action-meta-1" placeholder="Action 1" onchange="saveData()">Augmenter budget Meta Ads (+20%) - ROAS de 4,2x justifie l'augmentation. Tester audiences lookalike basées sur réservants.</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-meta-2" placeholder="Action 2" onchange="saveData()">Tester retargeting dynamique sur produits (packages spa, suites vue lac)</textarea>
+                    </div>
+                </div>
+
+                <div class="action-channel">
+                    <h3>Google ads</h3>
+                    <div class="action-item">
+                        <textarea id="action-google-1" placeholder="Action 1" onchange="saveData()">Réallouer Google Ads - -1,500 $ Retargeting → +1,500 $ Generic. Tester 5 nouveaux mots-clés "hôtel de luxe".</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-google-2" placeholder="Action 2" onchange="saveData()">Tester Google Shopping pour les packages (spa, chambres premium)</textarea>
+                    </div>
+                </div>
+
+                <div class="action-channel">
+                    <h3>Infolettres</h3>
+                    <div class="action-item">
+                        <textarea id="action-email-1" placeholder="Action 1" onchange="saveData()">Segmenter infolettres - Créer 4 listes : Spa lovers, Gourmands, Adventure seekers, Couples. Tester CTR segmenté.</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-email-2" placeholder="Action 2" onchange="saveData()">Augmenter fréquence à 3x par mois (vs 2x actuellement)</textarea>
+                    </div>
+                </div>
+
+                <div class="action-channel">
+                    <h3>Facebook</h3>
+                    <div class="action-item">
+                        <textarea id="action-facebook-1" placeholder="Action 1" onchange="saveData()">Augmenter contenu événementiel - Soirées/dégustations génèrent 2x plus d'engagement. Planifier 4-5 événements/mois.</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-facebook-2" placeholder="Action 2" onchange="saveData()">Tester Facebook Reels pour amplifier la portée des vidéos</textarea>
+                    </div>
+                </div>
+
+                <div class="action-channel">
+                    <h3>Instagram</h3>
+                    <div class="action-item">
+                        <textarea id="action-instagram-1" placeholder="Action 1" onchange="saveData()">Produire plus de reels Instagram - Passer de 16 à 24 contenus/mois. Focus: Drone, spa time-lapse, coulisses cuisine, avis clients.</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-instagram-2" placeholder="Action 2" onchange="saveData()">Créer des stories interactives (sondages, questions) 2x par semaine</textarea>
+                    </div>
+                </div>
+
+                <div class="action-channel">
+                    <h3>Général</h3>
+                    <div class="action-item">
+                        <textarea id="action-general-1" placeholder="Action 1" onchange="saveData()">Lancer retargeting intelligente - Audiences lookalike + retargeting visiteurs sans réservation. Budget initial: 2,000 $ Meta.</textarea>
+                    </div>
+                    <div class="action-item">
+                        <textarea id="action-general-2" placeholder="Action 2" onchange="saveData()">Optimiser conversion path du site (CTA réservation plus visible)</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB: HISTORIQUE -->
+        <div id="tab-history" class="tab-content">
+            <h2 class="section-title">Historique annuel des actions</h2>
+            <p style="margin-bottom: 30px; font-size: 13px; color: var(--color-neutral);">Vue d'ensemble de toutes les actions des mois précédents, organisées par canal.</p>
+            
+            <div id="history-container">
+                <!-- Rempli dynamiquement par JavaScript -->
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentMonth = '2026-04';
+        const tabStatuses = {
+            overview: { confirmed: false, updatedAt: null },
+            meta: { confirmed: false, updatedAt: null },
+            google: { confirmed: false, updatedAt: null },
+            email: { confirmed: false, updatedAt: null },
+            facebook: { confirmed: false, updatedAt: null },
+            instagram: { confirmed: false, updatedAt: null },
+            actions: { confirmed: false, updatedAt: null }
+        };
+
+        function getCurrentTabName() {
+            const activeTab = document.querySelector('.tab-content.active');
+            return activeTab ? activeTab.id.replace('tab-', '') : 'overview';
+        }
+
+        function markCurrentTabDirty() {
+            const tabName = getCurrentTabName();
+            if (tabStatuses[tabName]) {
+                tabStatuses[tabName].confirmed = false;
+                updateTabStatus(tabName);
+            }
+        }
+
+        function confirmTabUpdate(tabName) {
+            if (!tabStatuses[tabName]) return;
+            tabStatuses[tabName].confirmed = true;
+            tabStatuses[tabName].updatedAt = new Date().toISOString();
+            saveData(true);
+            updateTabStatus(tabName);
+        }
+
+        function formatTabTimestamp(dateString) {
+            if (!dateString) return '';
+            return new Date(dateString).toLocaleString('fr-FR', {
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit'
+            });
+        }
+
+        function updateTabStatus(tabName) {
+            const statusEl = document.getElementById('tab-' + tabName + '-status');
+            if (!statusEl) return;
+            const status = tabStatuses[tabName];
+            if (!status) return;
+            if (status.confirmed) {
+                statusEl.textContent = 'Mis à jour • ' + formatTabTimestamp(status.updatedAt);
+                statusEl.className = 'status-badge status-complete';
+            } else {
+                statusEl.textContent = 'Onglet non confirmé';
+                statusEl.className = 'status-badge status-incomplete';
+            }
+        }
+
+        function updateAllTabStatuses() {
+            Object.keys(tabStatuses).forEach(tabName => updateTabStatus(tabName));
+        }
+
+        // Tab switching
+        function switchTab(tabName, event) {
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById('tab-' + tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            if (tabName === 'history') {
+                displayHistory();
+            }
+        }
+
+        // Toggle form visibility
+        function toggleForm(formId) {
+            document.getElementById(formId).classList.toggle('active');
+        }
+
+        // Toggle analysis edit
+        function toggleAnalysisEdit(analysisId) {
+            const form = document.getElementById('analysis-edit-' + analysisId);
+            form.classList.toggle('active');
+        }
+
+        // Save analysis
+        function saveAnalysis(type) {
+            const textareaId = 'analysis-' + type + '-text';
+            const displayId = 'display-analysis-' + type;
+            const text = document.getElementById(textareaId).value;
+
+            // Split by newline and create list items
+            const lines = text.split('\n').filter(line => line.trim());
+            let html = '';
+            lines.forEach(line => {
+                html += '<li>' + line + '</li>';
+            });
+
+            document.getElementById(displayId).innerHTML = html;
+            toggleAnalysisEdit(type);
+            saveData();
+        }
+
+        // Switch month
+        function switchMonth() {
+            saveData(true);
+            currentMonth = document.getElementById('reportMonth').value;
+            loadData();
+            updateDashboard();
+        }
+
+        // Format numbers
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Save data
+        function saveData(preserveTabConfirmation = false) {
+            if (!preserveTabConfirmation) {
+                markCurrentTabDirty();
+            }
+            const dataObj = {
+                reservations: document.getElementById('reservations').value,
+                reservations_yoy: document.getElementById('reservations-yoy').value,
+                revenue: document.getElementById('revenue').value,
+                revenue_yoy: document.getElementById('revenue-yoy').value,
+                revenue_actual: document.getElementById('revenue-actual').value,
+                revenue_budget: document.getElementById('revenue-budget').value,
+                direct_percent: document.getElementById('direct-percent').value,
+                meta_spend_fr: document.getElementById('meta-spend-fr').value,
+                meta_spend_en: document.getElementById('meta-spend-en').value,
+                meta_reach_fr: document.getElementById('meta-reach-fr').value,
+                meta_reach_en: document.getElementById('meta-reach-en').value,
+                meta_clicks_fr: document.getElementById('meta-clicks-fr').value,
+                meta_clicks_en: document.getElementById('meta-clicks-en').value,
+                meta_ctr_fr: document.getElementById('meta-ctr-fr').value,
+                meta_ctr_en: document.getElementById('meta-ctr-en').value,
+                meta_cpc_fr: document.getElementById('meta-cpc-fr').value,
+                meta_cpc_en: document.getElementById('meta-cpc-en').value,
+                meta_conversions_fr: document.getElementById('meta-conversions-fr').value,
+                meta_conversions_en: document.getElementById('meta-conversions-en').value,
+                meta_revenue_fr: document.getElementById('meta-revenue-fr').value,
+                meta_revenue_en: document.getElementById('meta-revenue-en').value,
+                google_spend_fr: document.getElementById('google-spend-fr').value,
+                google_spend_en: document.getElementById('google-spend-en').value,
+                google_impressions_fr: document.getElementById('google-impressions-fr').value,
+                google_impressions_en: document.getElementById('google-impressions-en').value,
+                google_clicks_fr: document.getElementById('google-clicks-fr').value,
+                google_clicks_en: document.getElementById('google-clicks-en').value,
+                google_ctr_fr: document.getElementById('google-ctr-fr').value,
+                google_ctr_en: document.getElementById('google-ctr-en').value,
+                google_cpc_fr: document.getElementById('google-cpc-fr').value,
+                google_cpc_en: document.getElementById('google-cpc-en').value,
+                google_conversions_fr: document.getElementById('google-conversions-fr').value,
+                google_conversions_en: document.getElementById('google-conversions-en').value,
+                google_revenue_fr: document.getElementById('google-revenue-fr').value,
+                google_revenue_en: document.getElementById('google-revenue-en').value,
+                email_items: emailItems,
+                fb_followers: document.getElementById('fb-followers').value,
+                fb_reach: document.getElementById('fb-reach').value,
+                fb_engagement: document.getElementById('fb-engagement').value,
+                fb_clicks: document.getElementById('fb-clicks').value,
+                fb_posts: document.getElementById('fb-posts').value,
+                ig_followers: document.getElementById('ig-followers').value,
+                ig_impressions: document.getElementById('ig-impressions').value,
+                ig_engagement: document.getElementById('ig-engagement').value,
+                ig_clicks: document.getElementById('ig-clicks').value,
+                ig_posts: document.getElementById('ig-posts').value,
+                action_meta_1: document.getElementById('action-meta-1').value,
+                action_meta_2: document.getElementById('action-meta-2').value,
+                action_google_1: document.getElementById('action-google-1').value,
+                action_google_2: document.getElementById('action-google-2').value,
+                action_email_1: document.getElementById('action-email-1').value,
+                action_email_2: document.getElementById('action-email-2').value,
+                action_facebook_1: document.getElementById('action-facebook-1').value,
+                action_facebook_2: document.getElementById('action-facebook-2').value,
+                action_instagram_1: document.getElementById('action-instagram-1').value,
+                action_instagram_2: document.getElementById('action-instagram-2').value,
+                action_general_1: document.getElementById('action-general-1').value,
+                action_general_2: document.getElementById('action-general-2').value,
+                analysis_overview_text: document.getElementById('analysis-overview-text').value,
+                analysis_meta_text: document.getElementById('analysis-meta-text').value,
+                analysis_google_text: document.getElementById('analysis-google-text').value,
+                analysis_email_text: document.getElementById('analysis-email-text').value,
+                analysis_facebook_text: document.getElementById('analysis-facebook-text').value,
+                analysis_instagram_text: document.getElementById('analysis-instagram-text').value,
+                monthly_table: monthlyTableData,
+                tab_statuses: tabStatuses
+            };
+
+            localStorage.setItem('dashboard_' + currentMonth, JSON.stringify(dataObj));
+        }
+
+        // Email newsletter data
+        let emailItems = [
+            {
+                delivered: '4200',
+                open: '28.5',
+                ctr: '4.2',
+                conversions: '8',
+                revenue: '24000'
+            },
+            {
+                delivered: '3800',
+                open: '24.3',
+                ctr: '3.1',
+                conversions: '5',
+                revenue: '15000'
+            }
+        ];
+
+        function renderEmailItems() {
+            const container = document.getElementById('email-items');
+            container.innerHTML = '';
+
+            emailItems.forEach((item, index) => {
+                const itemBlock = document.createElement('div');
+                itemBlock.className = 'form-grid';
+                itemBlock.style.marginBottom = '20px';
+                itemBlock.style.padding = '15px';
+                itemBlock.style.border = '1px solid var(--color-border)';
+                itemBlock.style.borderRadius = '4px';
+                itemBlock.style.background = 'white';
+
+                const fields = [
+                    { label: 'Abonnés délivrés', field: 'delivered', type: 'number', step: '1' },
+                    { label: 'Taux d\'ouverture (%)', field: 'open', type: 'number', step: '0.1' },
+                    { label: 'CTR (%)', field: 'ctr', type: 'number', step: '0.1' },
+                    { label: 'Réservations générées', field: 'conversions', type: 'number', step: '1' },
+                    { label: 'Revenus générés (CAD)', field: 'revenue', type: 'number', step: '1' }
+                ];
+
+                fields.forEach(({ label, field, type, step }) => {
+                    const group = document.createElement('div');
+                    group.className = 'form-group';
+
+                    const inputLabel = document.createElement('label');
+                    inputLabel.textContent = label;
+                    group.appendChild(inputLabel);
+
+                    const input = document.createElement('input');
+                    input.type = type;
+                    input.value = item[field];
+                    input.step = step;
+                    input.onchange = (e) => updateEmailItem(index, field, e.target.value);
+                    group.appendChild(input);
+
+                    itemBlock.appendChild(group);
+                });
+
+                if (emailItems.length > 1) {
+                    const removeGroup = document.createElement('div');
+                    removeGroup.style.gridColumn = 'span 5';
+                    const removeBtn = document.createElement('button');
+                    removeBtn.type = 'button';
+                    removeBtn.className = 'form-toggle';
+                    removeBtn.style.background = '#d9534f';
+                    removeBtn.style.borderColor = '#d9534f';
+                    removeBtn.style.color = 'white';
+                    removeBtn.style.padding = '10px 14px';
+                    removeBtn.textContent = 'Supprimer cette infolettre';
+                    removeBtn.onclick = () => removeEmailItem(index);
+                    removeGroup.appendChild(removeBtn);
+                    itemBlock.appendChild(removeGroup);
+                }
+
+                container.appendChild(itemBlock);
+            });
+        }
+
+        function addEmailItem() {
+            emailItems.push({ delivered: '', open: '', ctr: '', conversions: '', revenue: '' });
+            renderEmailItems();
+            saveData();
+            updateDashboard();
+        }
+
+        function updateEmailItem(index, field, value) {
+            emailItems[index][field] = value;
+            saveData();
+            updateDashboard();
+        }
+
+        function removeEmailItem(index) {
+            if (emailItems.length <= 1) return;
+            emailItems.splice(index, 1);
+            renderEmailItems();
+            saveData();
+            updateDashboard();
+        }
+
+        // Monthly table data
+        let monthlyTableData = {
+            headers: ['Mois à venir', 'Occupation (%)', 'vs année dernière', 'Revenus prévus', 'Budget', 'Écart'],
+            rows: [
+                ['Juin', '78%', '+6%', '185 000 $', '180 000 $', '+2,8%'],
+                ['Juillet', '92%', '+4%', '285 000 $', '280 000 $', '+1,8%'],
+                ['Août', '89%', '+4%', '275 000 $', '270 000 $', '+1,9%'],
+                ['Septembre', '72%', '+4%', '165 000 $', '160 000 $', '+3,1%']
+            ]
+        };
+
+
+        function renderMonthlyTable() {
+            const head = document.getElementById('monthly-table-head');
+            const body = document.getElementById('monthly-table-body');
+            head.innerHTML = '';
+            body.innerHTML = '';
+
+            const headerRow = document.createElement('tr');
+            monthlyTableData.headers.forEach((header, index) => {
+                const th = document.createElement('th');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'editable-cell header-cell';
+                input.value = header;
+                input.onchange = () => {
+                    monthlyTableData.headers[index] = input.value;
+                    saveData();
+                    updateTabStatus('overview');
+                };
+                th.appendChild(input);
+                headerRow.appendChild(th);
+            });
+            head.appendChild(headerRow);
+
+            monthlyTableData.rows.forEach((row, rowIndex) => {
+                const tr = document.createElement('tr');
+                row.forEach((cell, colIndex) => {
+                    const td = document.createElement('td');
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.className = 'editable-cell';
+                    input.value = cell;
+                    input.onchange = () => {
+                        monthlyTableData.rows[rowIndex][colIndex] = input.value;
+                        saveData();
+                        updateTabStatus('overview');
+                    };
+                    td.appendChild(input);
+                    tr.appendChild(td);
+                });
+                body.appendChild(tr);
+            });
+            updateTabStatus('overview');
+        }
+
+        function addMonthlyColumn() {
+            const columnName = document.getElementById('new-column-name').value.trim();
+            if (!columnName) return;
+            monthlyTableData.headers.push(columnName);
+            monthlyTableData.rows.forEach(row => row.push(''));
+            document.getElementById('new-column-name').value = '';
+            saveData();
+            renderMonthlyTable();
+            updateTabStatus('overview');
+        }
+
+        function addMonthlyRow() {
+            const rowName = document.getElementById('new-row-name').value.trim();
+            if (!rowName) return;
+            const newRow = [rowName];
+            for (let i = 1; i < monthlyTableData.headers.length; i++) {
+                newRow.push('');
+            }
+            monthlyTableData.rows.push(newRow);
+            document.getElementById('new-row-name').value = '';
+            saveData();
+            renderMonthlyTable();
+            updateTabStatus('overview');
+        }
+
+        function loadMonthlyTableData(data) {
+            if (data && data.monthly_table) {
+                monthlyTableData = data.monthly_table;
+            }
+            renderMonthlyTable();
+            updateTabStatus('overview');
+        }
+
+        function renderAnalysis(type) {
+            const displayId = 'display-analysis-' + type;
+            const textareaId = 'analysis-' + type + '-text';
+            const text = document.getElementById(textareaId).value;
+            const lines = text.split('\n').filter(line => line.trim());
+            let html = '';
+            lines.forEach(line => {
+                html += '<li>' + line + '</li>';
+            });
+            document.getElementById(displayId).innerHTML = html;
+        }
+
+        // Load data
+        function loadData() {
+            const data = JSON.parse(localStorage.getItem('dashboard_' + currentMonth)) || {};
+
+            document.getElementById('reservations').value = data.reservations || '45';
+            document.getElementById('reservations-yoy').value = data.reservations_yoy || '38';
+            document.getElementById('revenue').value = data.revenue || '125000';
+            document.getElementById('revenue-yoy').value = data.revenue_yoy || '108000';
+            document.getElementById('revenue-actual').value = data.revenue_actual || '125000';
+            document.getElementById('revenue-budget').value = data.revenue_budget || '120000';
+            document.getElementById('direct-percent').value = data.direct_percent || '65';
+            document.getElementById('meta-spend-fr').value = data.meta_spend_fr || data.meta_spend || '5000';
+            document.getElementById('meta-spend-en').value = data.meta_spend_en || '3500';
+            document.getElementById('meta-reach-fr').value = data.meta_reach_fr || data.meta_reach || '80000';
+            document.getElementById('meta-reach-en').value = data.meta_reach_en || '62000';
+            document.getElementById('meta-clicks-fr').value = data.meta_clicks_fr || data.meta_clicks || '2000';
+            document.getElementById('meta-clicks-en').value = data.meta_clicks_en || '1250';
+            document.getElementById('meta-ctr-fr').value = data.meta_ctr_fr || data.meta_ctr || '2.50';
+            document.getElementById('meta-ctr-en').value = data.meta_ctr_en || '2.00';
+            document.getElementById('meta-cpc-fr').value = data.meta_cpc_fr || data.meta_cpc || '2.50';
+            document.getElementById('meta-cpc-en').value = data.meta_cpc_en || '2.80';
+            document.getElementById('meta-conversions-fr').value = data.meta_conversions_fr || data.meta_conversions || '8';
+            document.getElementById('meta-conversions-en').value = data.meta_conversions_en || '4';
+            document.getElementById('meta-revenue-fr').value = data.meta_revenue_fr || data.meta_revenue || '24000';
+            document.getElementById('meta-revenue-en').value = data.meta_revenue_en || '12000';
+            document.getElementById('google-spend-fr').value = data.google_spend_fr || data.google_spend || '7000';
+            document.getElementById('google-spend-en').value = data.google_spend_en || '5000';
+            document.getElementById('google-impressions-fr').value = data.google_impressions_fr || data.google_impressions || '26000';
+            document.getElementById('google-impressions-en').value = data.google_impressions_en || '19800';
+            document.getElementById('google-clicks-fr').value = data.google_clicks_fr || data.google_clicks || '1200';
+            document.getElementById('google-clicks-en').value = data.google_clicks_en || '980';
+            document.getElementById('google-ctr-fr').value = data.google_ctr_fr || data.google_ctr || '4.60';
+            document.getElementById('google-ctr-en').value = data.google_ctr_en || '4.95';
+            document.getElementById('google-cpc-fr').value = data.google_cpc_fr || data.google_cpc || '5.00';
+            document.getElementById('google-cpc-en').value = data.google_cpc_en || '6.00';
+            document.getElementById('google-conversions-fr').value = data.google_conversions_fr || data.google_conversions || '11';
+            document.getElementById('google-conversions-en').value = data.google_conversions_en || '7';
+            document.getElementById('google-revenue-fr').value = data.google_revenue_fr || data.google_revenue || '33000';
+            document.getElementById('google-revenue-en').value = data.google_revenue_en || '21000';
+            if (data.tab_statuses) {
+                Object.keys(tabStatuses).forEach(tabName => {
+                    if (data.tab_statuses[tabName]) {
+                        tabStatuses[tabName].confirmed = !!data.tab_statuses[tabName].confirmed;
+                        tabStatuses[tabName].updatedAt = data.tab_statuses[tabName].updatedAt || null;
+                    }
+                });
+            }
+            loadEmailItems(data);
+            document.getElementById('fb-followers').value = data.fb_followers || '8450';
+            document.getElementById('fb-reach').value = data.fb_reach || '42300';
+            document.getElementById('fb-engagement').value = data.fb_engagement || '1850';
+            document.getElementById('fb-clicks').value = data.fb_clicks || '485';
+            document.getElementById('fb-posts').value = data.fb_posts || '12';
+            document.getElementById('ig-followers').value = data.ig_followers || '12800';
+            document.getElementById('ig-impressions').value = data.ig_impressions || '185000';
+            document.getElementById('ig-engagement').value = data.ig_engagement || '6850';
+            document.getElementById('ig-clicks').value = data.ig_clicks || '320';
+            document.getElementById('ig-posts').value = data.ig_posts || '16';
+
+            document.getElementById('action-meta-1').value = data.action_meta_1 || 'Augmenter budget Meta Ads (+20%) - ROAS de 4,2x justifie l\'augmentation. Tester audiences lookalike basées sur réservants.';
+            document.getElementById('action-meta-2').value = data.action_meta_2 || 'Tester retargeting dynamique sur produits (packages spa, suites vue lac)';
+            document.getElementById('action-google-1').value = data.action_google_1 || 'Réallouer Google Ads - -1,500 $ Retargeting → +1,500 $ Generic. Tester 5 nouveaux mots-clés "hôtel de luxe".';
+            document.getElementById('action-google-2').value = data.action_google_2 || 'Tester Google Shopping pour les packages (spa, chambres premium)';
+            document.getElementById('action-email-1').value = data.action_email_1 || 'Segmenter infolettres - Créer 4 listes : Spa lovers, Gourmands, Adventure seekers, Couples. Tester CTR segmenté.';
+            document.getElementById('action-email-2').value = data.action_email_2 || 'Augmenter fréquence à 3x par mois (vs 2x actuellement)';
+            document.getElementById('action-facebook-1').value = data.action_facebook_1 || 'Augmenter contenu événementiel - Soirées/dégustations génèrent 2x plus d\'engagement. Planifier 4-5 événements/mois.';
+            document.getElementById('action-facebook-2').value = data.action_facebook_2 || 'Tester Facebook Reels pour amplifier la portée des vidéos';
+            document.getElementById('action-instagram-1').value = data.action_instagram_1 || 'Produire plus de reels Instagram - Passer de 16 à 24 contenus/mois. Focus: Drone, spa time-lapse, coulisses cuisine, avis clients.';
+            document.getElementById('action-instagram-2').value = data.action_instagram_2 || 'Créer des stories interactives (sondages, questions) 2x par semaine';
+            document.getElementById('action-general-1').value = data.action_general_1 || 'Lancer retargeting intelligente - Audiences lookalike + retargeting visiteurs sans réservation. Budget initial: 2,000 $ Meta.';
+            document.getElementById('action-general-2').value = data.action_general_2 || 'Optimiser conversion path du site (CTA réservation plus visible)';
+
+            document.getElementById('analysis-overview-text').value = data.analysis_overview_text || 'Performance +18% en réservations — Croissance solide. À maintenir via acquisition payante (Meta + Google).\nRevenus dépassent le budget de +4,2% — Excellent revenu par chambre. Vérifier le mix chambre/packages.\n65% en réservations directes — Ratio idéal. Continuer à renforcer la marque (email + organique).';
+            document.getElementById('analysis-meta-text').value = data.analysis_meta_text || 'ROAS de 4,2x — Excellent retour. Chaque dollar dépensé génère 4,20 $ de revenus.\nCPC très compétitif — À 2,62 $, c\'est idéal pour le secteur hôtelier premium.\nAction prioritaire: Augmenter le budget de 20-30% et tester des audiences lookalike basées sur les réservants.';
+            document.getElementById('analysis-google-text').value = data.analysis_google_text || 'Brand surperforme (CPL 500 $) — Les utilisateurs cherchant "Quintessence" convertissent très bien. Maintenir ce budget.\nGeneric à augmenter — CPL de 3 000 $ est plus haut mais découvre de nouveaux clients. Tester +2K de budget.\nRéduire Retargeting — Conversion faible. Rediriger ce budget vers Brand ou Generic.';
+            document.getElementById('analysis-email-text').value = data.analysis_email_text || 'Email ROI excellent — 13 réservations pour coûtier quasi nul (liste existante). C\'est 29% des revenus mensuels.\n"Événements" surperforme — 28,5% d\'ouverture vs 24,3%. Les utilisateurs aiment les promos.\nAction: Augmenter fréquence d\'envois (3x vs 2x par mois). Tester segmentation par intérêts (Spa, Gastronomie, Lac).';
+            document.getElementById('analysis-facebook-text').value = data.analysis_facebook_text || 'Les événementiel et gastronomie dominent — Premiers 2 posts génèrent 65% de l\'engagement total.\n4,4% engagement rate — Au-dessus de la moyenne Facebook (2-3%). Contenu resonant.\nAction: Augmenter la fréquence d\'événements + contenu culinaire. Tester reels pour amplifier la portée.';
+            document.getElementById('analysis-instagram-text').value = data.analysis_instagram_text || 'Instagram > Facebook — 185K impressions vs 42K sur FB. Instagram est le pilier visuel de la marque.\n429 engagements/post — C\'est 2,7x plus que Facebook (154). Le contenu résonne très bien.\nAction: Produire 24 contenus/mois (vs 16). Focus: Reels de drone (lac), vidéos spa, coulisses cuisine.';
+
+            renderAnalysis('overview');
+            renderAnalysis('meta');
+            renderAnalysis('google');
+            renderAnalysis('email');
+            renderAnalysis('facebook');
+            renderAnalysis('instagram');
+            loadMonthlyTableData(data);
+            updateAllTabStatuses();
+        }
+
+        function loadEmailItems(data) {
+            if (data && data.email_items && Array.isArray(data.email_items) && data.email_items.length) {
+                emailItems = data.email_items.map(item => ({
+                    delivered: item.delivered || '',
+                    open: item.open || '',
+                    ctr: item.ctr || '',
+                    conversions: item.conversions || '',
+                    revenue: item.revenue || ''
+                }));
+            } else if (data) {
+                emailItems = [
+                    {
+                        delivered: data.email1_delivered || '4200',
+                        open: data.email1_open || '28.5',
+                        ctr: data.email1_ctr || '4.2',
+                        conversions: data.email1_conversions || '8',
+                        revenue: data.email1_revenue || '24000'
+                    }
+                ];
+                if (data.email2_delivered || data.email2_open || data.email2_ctr || data.email2_conversions || data.email2_revenue) {
+                    emailItems.push({
+                        delivered: data.email2_delivered || '3800',
+                        open: data.email2_open || '24.3',
+                        ctr: data.email2_ctr || '3.1',
+                        conversions: data.email2_conversions || '5',
+                        revenue: data.email2_revenue || '15000'
+                    });
+                }
+            }
+            renderEmailItems();
+        }
+
+        // Display history
+        function displayHistory() {
+            const container = document.getElementById('history-container');
+            const months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+            const channels = ['meta', 'google', 'email', 'facebook', 'instagram', 'general'];
+            const channelLabels = {
+                meta: 'Meta Ads',
+                google: 'Google Ads',
+                email: 'Infolettres',
+                facebook: 'Facebook',
+                instagram: 'Instagram',
+                general: 'Général'
+            };
+
+            container.innerHTML = '';
+
+            for (let m = 1; m <= 12; m++) {
+                const monthKey = '2026-' + String(m).padStart(2, '0');
+                const data = localStorage.getItem('dashboard_' + monthKey);
+
+                if (data) {
+                    const parsed = JSON.parse(data);
+                    const monthName = months[m - 1].charAt(0).toUpperCase() + months[m - 1].slice(1);
+
+                    let html = `<div class="history-month">
+                        <h3>${monthName} 2026</h3>
+                        <div class="history-channels">`;
+
+                    channels.forEach(ch => {
+                        let hasActions = false;
+                        let actionsHtml = `<div class="history-channel">
+                            <h4>${channelLabels[ch]}</h4>`;
+
+                        for (let i = 1; i <= 2; i++) {
+                            const actionKey = 'action_' + ch + '_' + i;
+                            const actionText = parsed[actionKey];
+                            if (actionText && actionText.trim()) {
+                                hasActions = true;
+                                actionsHtml += `<div class="history-action"><p>${actionText}</p></div>`;
+                            }
+                        }
+                        actionsHtml += '</div>';
+
+                        if (hasActions) {
+                            html += actionsHtml;
+                        }
+                    });
+
+                    html += `</div></div>`;
+                    container.innerHTML += html;
+                }
+            }
+
+            if (!container.innerHTML) {
+                container.innerHTML = '<p style="font-size: 13px; color: var(--color-neutral);">Aucune action enregistrée pour l\'instant.</p>';
+            }
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const reservations = parseInt(document.getElementById('reservations').value) || 0;
+            const reservations_yoy = parseInt(document.getElementById('reservations-yoy').value) || 0;
+            const revenue = parseInt(document.getElementById('revenue').value) || 0;
+            const revenue_yoy = parseInt(document.getElementById('revenue-yoy').value) || 0;
+            const direct_pct = parseFloat(document.getElementById('direct-percent').value) || 0;
+
+            const res_change = ((reservations - reservations_yoy) / reservations_yoy * 100).toFixed(1);
+            const rev_change = ((revenue - revenue_yoy) / revenue_yoy * 100).toFixed(1);
+
+            document.getElementById('kpi-reservations').textContent = reservations;
+            document.getElementById('kpi-res-change').textContent = (res_change > 0 ? '+' : '') + res_change + '% YoY';
+            document.getElementById('kpi-res-change').className = 'kpi-change ' + (res_change > 0 ? 'positive' : 'negative');
+
+            document.getElementById('kpi-revenue').textContent = formatNumber(revenue);
+            document.getElementById('kpi-rev-change').textContent = (rev_change > 0 ? '+' : '') + rev_change + '% YoY';
+            document.getElementById('kpi-rev-change').className = 'kpi-change ' + (rev_change > 0 ? 'positive' : 'negative');
+
+            document.getElementById('kpi-direct').textContent = direct_pct.toFixed(0) + '%';
+
+            const meta_spend_fr = parseInt(document.getElementById('meta-spend-fr').value) || 0;
+            const meta_spend_en = parseInt(document.getElementById('meta-spend-en').value) || 0;
+            const meta_spend = meta_spend_fr + meta_spend_en;
+            const meta_reach_fr = parseInt(document.getElementById('meta-reach-fr').value) || 0;
+            const meta_reach_en = parseInt(document.getElementById('meta-reach-en').value) || 0;
+            const meta_reach = meta_reach_fr + meta_reach_en;
+            const meta_clicks_fr = parseInt(document.getElementById('meta-clicks-fr').value) || 0;
+            const meta_clicks_en = parseInt(document.getElementById('meta-clicks-en').value) || 0;
+            const meta_clicks = meta_clicks_fr + meta_clicks_en;
+            const meta_cpc = meta_clicks > 0 ? (meta_spend / meta_clicks) : 0;
+            const meta_conversions_fr = parseInt(document.getElementById('meta-conversions-fr').value) || 0;
+            const meta_conversions_en = parseInt(document.getElementById('meta-conversions-en').value) || 0;
+            const meta_conversions = meta_conversions_fr + meta_conversions_en;
+            const meta_revenue_fr = parseInt(document.getElementById('meta-revenue-fr').value) || 0;
+            const meta_revenue_en = parseInt(document.getElementById('meta-revenue-en').value) || 0;
+            const meta_revenue = meta_revenue_fr + meta_revenue_en;
+            const meta_roas = meta_spend > 0 ? (meta_revenue / meta_spend).toFixed(2) : 0;
+
+            document.getElementById('kpi-meta-spend').textContent = formatNumber(meta_spend);
+            document.getElementById('kpi-meta-reach').textContent = formatNumber(meta_reach);
+            document.getElementById('kpi-meta-cpc').textContent = '$' + meta_cpc.toFixed(2);
+            document.getElementById('kpi-meta-conv').textContent = meta_conversions;
+            document.getElementById('kpi-meta-revenue').textContent = formatNumber(meta_revenue);
+            document.getElementById('kpi-meta-roas').textContent = meta_roas + 'x';
+
+            // FR/EN specific KPIs
+            document.getElementById('kpi-meta-fr-conv').textContent = meta_conversions_fr;
+            document.getElementById('kpi-meta-en-conv').textContent = meta_conversions_en;
+            const diff = meta_conversions_fr - meta_conversions_en;
+            const diffEl = document.getElementById('kpi-meta-fr-en-diff');
+            const diffLabel = document.getElementById('kpi-meta-fr-en-label');
+            diffEl.textContent = (diff > 0 ? '+' : '') + diff;
+            if (diff > 0) {
+                diffEl.className = 'kpi-value';
+                diffLabel.className = 'kpi-change positive';
+                diffLabel.textContent = 'Plus de réservations en FR';
+            } else if (diff < 0) {
+                diffEl.className = 'kpi-value';
+                diffLabel.className = 'kpi-change negative';
+                diffLabel.textContent = 'Plus de réservations en EN';
+            } else {
+                diffEl.className = 'kpi-value';
+                diffLabel.className = 'kpi-change neutral';
+                diffLabel.textContent = 'Égalité FR / EN';
+            }
+
+            const google_spend_fr = parseInt(document.getElementById('google-spend-fr').value) || 0;
+            const google_spend_en = parseInt(document.getElementById('google-spend-en').value) || 0;
+            const google_spend = google_spend_fr + google_spend_en;
+            const google_impr_fr = parseInt(document.getElementById('google-impressions-fr').value) || 0;
+            const google_impr_en = parseInt(document.getElementById('google-impressions-en').value) || 0;
+            const google_impressions = google_impr_fr + google_impr_en;
+            const google_clicks_fr = parseInt(document.getElementById('google-clicks-fr').value) || 0;
+            const google_clicks_en = parseInt(document.getElementById('google-clicks-en').value) || 0;
+            const google_clicks = google_clicks_fr + google_clicks_en;
+            const google_cpc = google_clicks > 0 ? (google_spend / google_clicks) : 0;
+            const google_conversions_fr = parseInt(document.getElementById('google-conversions-fr').value) || 0;
+            const google_conversions_en = parseInt(document.getElementById('google-conversions-en').value) || 0;
+            const google_conversions = google_conversions_fr + google_conversions_en;
+            const google_revenue_fr = parseInt(document.getElementById('google-revenue-fr').value) || 0;
+            const google_revenue_en = parseInt(document.getElementById('google-revenue-en').value) || 0;
+            const google_revenue = google_revenue_fr + google_revenue_en;
+            const google_roas = google_spend > 0 ? (google_revenue / google_spend).toFixed(2) : 0;
+
+            document.getElementById('kpi-google-spend').textContent = formatNumber(google_spend);
+            document.getElementById('kpi-google-impr').textContent = formatNumber(google_impressions);
+            document.getElementById('kpi-google-ctr').textContent = (google_clicks > 0 ? (google_clicks / google_impressions * 100) : 0).toFixed(2) + '%';
+            document.getElementById('kpi-google-cpc').textContent = '$' + google_cpc.toFixed(2);
+            document.getElementById('kpi-google-conv').textContent = google_conversions;
+            document.getElementById('kpi-google-roas').textContent = google_roas + 'x';
+
+            // FR/EN specific KPIs for Google
+            document.getElementById('kpi-google-fr-conv').textContent = google_conversions_fr;
+            document.getElementById('kpi-google-en-conv').textContent = google_conversions_en;
+            const gdiff = google_conversions_fr - google_conversions_en;
+            const gdiffEl = document.getElementById('kpi-google-fr-en-diff');
+            const gdiffLabel = document.getElementById('kpi-google-fr-en-label');
+            gdiffEl.textContent = (gdiff > 0 ? '+' : '') + gdiff;
+            if (gdiff > 0) {
+                gdiffLabel.className = 'kpi-change positive';
+                gdiffLabel.textContent = 'Plus de réservations en FR';
+            } else if (gdiff < 0) {
+                gdiffLabel.className = 'kpi-change negative';
+                gdiffLabel.textContent = 'Plus de réservations en EN';
+            } else {
+                gdiffLabel.className = 'kpi-change neutral';
+                gdiffLabel.textContent = 'Égalité FR / EN';
+            }
+
+            const email_total = emailItems.reduce((sum, item) => sum + (parseInt(item.delivered) || 0), 0);
+            const email_open_avg = emailItems.length > 0 ? (parseFloat(emailItems[0].open) || 0) : 0;
+            const email_ctr_avg = emailItems.length > 0 ? (parseFloat(emailItems[0].ctr) || 0) : 0;
+            const email_conv_total = emailItems.reduce((sum, item) => sum + (parseInt(item.conversions) || 0), 0);
+            const email_rev_total = emailItems.reduce((sum, item) => sum + (parseInt(item.revenue) || 0), 0);
+            const emailCount = emailItems.length;
+
+            document.getElementById('kpi-email-total').textContent = formatNumber(email_total);
+            document.getElementById('kpi-email-open').textContent = email_open_avg.toFixed(1) + '%';
+            document.getElementById('kpi-email-ctr').textContent = email_ctr_avg.toFixed(2) + '%';
+            document.getElementById('kpi-email-conv').textContent = email_conv_total;
+            document.getElementById('kpi-email-revenue').textContent = formatNumber(email_rev_total);
+            document.getElementById('kpi-email-count').textContent = emailCount > 1 ? emailCount + ' infolettres' : emailCount + ' infolettre';
+
+            const fb_followers = parseInt(document.getElementById('fb-followers').value) || 0;
+            const fb_reach = parseInt(document.getElementById('fb-reach').value) || 0;
+            const fb_engagement = parseInt(document.getElementById('fb-engagement').value) || 0;
+            const fb_posts = parseInt(document.getElementById('fb-posts').value) || 0;
+
+            const fb_per_post = fb_posts > 0 ? Math.round(fb_engagement / fb_posts) : 0;
+            const fb_engagement_rate = fb_reach > 0 ? (fb_engagement / fb_reach * 100).toFixed(2) : 0;
+
+            document.getElementById('kpi-fb-followers').textContent = formatNumber(fb_followers);
+            document.getElementById('kpi-fb-reach').textContent = formatNumber(fb_reach);
+            document.getElementById('kpi-fb-engagement').textContent = formatNumber(fb_engagement);
+            document.getElementById('kpi-fb-per-post').textContent = fb_per_post;
+            document.getElementById('kpi-fb-engagement-rate').textContent = fb_engagement_rate + '%';
+
+            const ig_followers = parseInt(document.getElementById('ig-followers').value) || 0;
+            const ig_impressions = parseInt(document.getElementById('ig-impressions').value) || 0;
+            const ig_engagement = parseInt(document.getElementById('ig-engagement').value) || 0;
+            const ig_posts = parseInt(document.getElementById('ig-posts').value) || 0;
+
+            const ig_per_post = ig_posts > 0 ? Math.round(ig_engagement / ig_posts) : 0;
+            const ig_engagement_rate = ig_impressions > 0 ? (ig_engagement / ig_impressions * 100).toFixed(2) : 0;
+
+            document.getElementById('kpi-ig-followers').textContent = formatNumber(ig_followers);
+            document.getElementById('kpi-ig-impressions').textContent = formatNumber(ig_impressions);
+            document.getElementById('kpi-ig-engagement').textContent = formatNumber(ig_engagement);
+            document.getElementById('kpi-ig-per-post').textContent = ig_per_post;
+            document.getElementById('kpi-ig-engagement-rate').textContent = ig_engagement_rate + '%';
+        }
+
+        // Initial load
+        loadData();
+        updateDashboard();
+    </script>
+</body>
+</html>
